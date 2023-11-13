@@ -1,0 +1,36 @@
+﻿@model SearchViewModel;
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<h3>Search Book</h3>
+
+<form asp-action="Index", method="post">
+    <input type="text" name="keyword" class="form-control" placeholder="Enter Book Title" />
+    <button type="submit">Search</button>
+ </form>
+
+@if(Model.Books.Any())
+{
+    <br /><br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Page Count</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Books)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.PageCount</td>
+                    <td>@item.Authors</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
