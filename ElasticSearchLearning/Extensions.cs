@@ -9,7 +9,10 @@ namespace ElasticSearchLearning
         {
             var baseUrl = configuration["ElasticSettings:BaseUrl"];
             var index = configuration["ElasticSettings:DefaultIndex"];
-            var settings = new ConnectionSettings(new Uri(baseUrl)).PrettyJson().BasicAuthentication("junaid", "junaid").DefaultIndex(index);
+            var username = configuration["ElasticSettings:Username"];
+            var password = configuration["ElasticSettings:Password"];
+
+            var settings = new ConnectionSettings(new Uri(baseUrl)).PrettyJson().BasicAuthentication(username, password).DefaultIndex(index);
             settings.EnableApiVersioningHeader();
             //AddDefaultMappings(settings);
             var client = new ElasticClient(settings);
@@ -23,7 +26,7 @@ namespace ElasticSearchLearning
 
         private static void CreateIndex(IElasticClient client, string indexName)
         {
-            var createIndexResponse = client.Indices.Create(indexName, index => index.Map<Book>(x => x.AutoMap()));
+            client.Indices.Create(indexName, index => index.Map<Book>(x => x.AutoMap()));
         }
     }
 }
